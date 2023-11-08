@@ -1,4 +1,4 @@
-# Virtual Storefront - Phase 1
+# Virtual Storefront
 
 ## LAB - Application State with Redux
 
@@ -23,3 +23,35 @@ This project is the beginning of a multi-phase build process of an e-Commerce st
 - **Products**: State includes a list of products, each associated with a category.
 
 ![UML](public/storefront.png)
+
+## Phase 2: LAB - Redux - Combined Reducers
+
+We are enhancing our storefront application by incorporating a shopping cart feature.
+
+### Phase 2 Requirements
+
+#### User Stories
+
+- As a user, I want to choose products from the list and add them to my shopping cart.
+- As a user, I want to see the products I've added to my shopping cart on the side of the page.
+- As a user, I want to change the quantity of items I intend to purchase in the header (e.g., CART (1)).
+- As a user, I want to remove an item from my shopping cart.
+
+#### Application Flow
+
+- User selects a category and is presented with a list of products.
+- User can add a product to their cart by clicking an "Add to Cart" button.
+- The cart's contents are displayed in a `<SimpleCart />` component on the side of the page.
+- User can remove items from the cart, updating the cart total in the header.
+
+#### Home Page Operation
+
+- Upon category selection, display products associated with that category, available in stock.
+- Each product should have an "add to cart" button.
+- On "add to cart" button click, add the item to the cart and update the `<SimpleCart />` and header cart indicator.
+
+#### Redux Store Enhancement
+
+- **Categories Reducer**: Manage a list of categories and the active category.
+- **Products Reducer**: Handle a list of products, including actions for filtering by category and reducing stock quantities.
+- **Cart Reducer**: Manage an array of products added to the cart, with actions to add or remove items.

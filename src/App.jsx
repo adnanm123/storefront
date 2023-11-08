@@ -4,11 +4,13 @@ import Footer from './Components/Footer';
 import Categories from './Components/Categories';
 import Products from './Components/Products';
 import ActiveCategory from './Components/ActiveCategory';
+import CartList from './Components/CartList';
 
 function App() {
   return (
     <div className="App">
-      <Header />
+        <Header />
+        <CartList />
         <ActiveCategory />
         <Categories />
         <Products />

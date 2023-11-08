@@ -1,0 +1,28 @@
+.simple-cart {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 1rem; // Add padding on the right for some spacing from the edge
+  
+    .shopping-cart-icon {
+      font-size: 2.5rem; // Slightly larger icon
+      color: #5f6368; // A dark gray that's not too harsh
+      cursor: pointer;
+  
+      &:hover {
+        color: #1a73e8; // A pleasant blue color for hover state
+      }
+    }
+  
+    .badge {
+      .MuiBadge-badge {
+        background-color: #34a853; // A Google-ish green color for the badge
+        color: #ffffff; // White color for badge text
+        font-size: 0.75rem; // Make sure the font size isn't too large for the badge
+        top: 0;
+        right: 0;
+        border: 2px solid #ffffff; // White border to help separate badge from icon
+      }
+    }
+  }
+  
