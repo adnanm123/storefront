@@ -24,16 +24,20 @@ const createMockStore = () => {
     reducer: {
       categories: mockCategoriesReducer,
       products: mockProductsReducer,
+      cart: () => ({
+          items: {}, 
+        }),
     },
   });
 };
+
+describe('App', () => {
 
 let store;
 beforeAll(() => {
   store = createMockStore();
 });
 
-describe('App', () => {
   it('renders Header component', () => {
     render(
       <Provider store={store}>

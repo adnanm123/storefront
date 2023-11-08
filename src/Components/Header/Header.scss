@@ -1,0 +1,38 @@
+// Header.scss
+.app-bar {
+  background-color: #5E35B1; // A deep purple color
+  color: #FFFFFF; // White text color for contrast
+}
+
+.toolbar {
+  justify-content: space-between;
+  padding: 0 20px; // Adjust padding as needed for spacing
+
+  .title {
+    flex-grow: 1; // Title takes up available space
+    color: inherit; // Ensures the text color is white as defined by the AppBar
+
+    // Using a standard CSS media query for responsiveness
+    @media (min-width: 576px) { // Adjust the px value based on your design needs
+      font-size: 1.5rem; // Slightly larger font-size for small devices and up
+    }
+  }
+}
+
+.simple-cart {
+  // Let's assume you want a contrasting color for the SimpleCart button
+  background-color: #FFC107; // A bright amber color
+  color: #212121; // Near-black color for the text for good readability
+  padding: 5px 10px; // Padding inside the SimpleCart button
+  border-radius: 5px; // Rounded corners for the button
+
+  // An example of how to style hover state
+  &:hover {
+    background-color: darken(#FFC107, 10%); // Darken the button color slightly on hover
+  }
+}
+
+// You might want to add styles for the AppBar elevation (shadow)
+.app-bar {
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2); // Soft shadow for a subtle depth effect
+}
