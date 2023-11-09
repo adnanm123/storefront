@@ -1,14 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+// Async thunk to fetch products from the API
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async () => {
+    const response = await fetch('https://api-js401.herokuapp.com/api/v1/products');
+    const data = await response.json();
+    console.log(data.results);
+    return data.results;
+  }
+);
 
 const initialState = {
-  list: [
-
-    { id: 1, category: 'electronics', name: 'TV', description: 'A large screen TV', price: 799.99, inventoryCount: 25 },
-    { id: 2, category: 'electronics', name: 'Macbook', description: 'A high-end laptop', price: 1299.99, inventoryCount: 5 },
-    { id: 3, category: 'food', name: 'Banana', description: 'A yellow banana', price:0.29, inventoryCount: 200 },
-    { id: 4, category: 'food', name: 'Cookie', description: 'A delicious cookie', price: 5.99, inventoryCount: 250 },
-
-  ],
+  list: [],
+  loading: false,
 };
 
 const productsSlice = createSlice({
@@ -22,18 +27,31 @@ const productsSlice = createSlice({
       state.list.push(action.payload);
     },
     updateInventory(state, action) {
-      const index = state.list.findIndex((p) => p.id === action.payload.id);
+      const index = state.list.findIndex((p) => p._id === action.payload._id);
       if (index !== -1) {
-        state.list[index].inventoryCount = action.payload.inventoryCount;
+        state.list[index].inStock = action.payload.inStock;
       }
     },
 
     removeProduct(state, action) {
-      const index = state.list.findIndex(p => p.id === action.payload);
+      const index = state.list.findIndex(p => p._id === action.payload);
       if (index !== -1) {
         state.list.splice(index, 1);
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProducts.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.list = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchProducts.rejected, (state) => {
+        state.loading = false;
+      });
   },
 });
 
