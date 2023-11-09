@@ -15,7 +15,7 @@ const ActiveCategory = () => {
   return (
     <Box sx={{ padding: 2, textAlign: 'center' }}>
       <Typography variant="h4" component="h2">
-        {categoryDetails.displayName}
+        {categoryDetails.name}
       </Typography>
       <Typography variant="subtitle1">
         {categoryDetails.description}

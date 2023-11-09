@@ -55,3 +55,14 @@ We are enhancing our storefront application by incorporating a shopping cart fea
 - **Categories Reducer**: Manage a list of categories and the active category.
 - **Products Reducer**: Handle a list of products, including actions for filtering by category and reducing stock quantities.
 - **Cart Reducer**: Manage an array of products added to the cart, with actions to add or remove items.
+
+## Phase 3: LAB - Redux - Asynchronous Actions (Thunk)
+
+In phase 3, we will be connecting our Virtual Store to a live API so that our data is persistent and able to be separately managed.
+
+### Phase 3 Requirements
+
+The user stories from Phases 1 and 2 remain unchanged. For this phase, we are now adding the following new user stories to meet the new requirements.
+
+- As a user, I want to interact with live inventory so that I have confidence that the displayed products are in stock.
+- As a user, I want to know that when I add an item to my cart, that it is removed from inventory so that no other users can purchase it.

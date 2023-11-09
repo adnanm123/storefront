@@ -1,47 +1,94 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { updateInventory } from '../products'; 
+import { updateInventory } from '../products'
+import axios from 'axios';
 
 export const addToCartAndUpdateInventory = createAsyncThunk(
-    'products/addToCartAndUpdateInventory',
-    async (product, { dispatch, getState }) => {
-      dispatch(addToCart(product));
-      const currentProduct = getState().products.list.find(p => p.id === product.id);
-      if (currentProduct.inventoryCount > 0) {
-        dispatch(updateInventory({ id: product.id, inventoryCount: currentProduct.inventoryCount - 1 }));
+  'cart/addToCartAndUpdateInventory',
+  async (product, { dispatch, getState }) => {
+    dispatch(addToCart(product));
+
+    try {
+      const response = await axios.put(`https://api-js401.herokuapp.com/api/v1/products/${product._id}`, {
+        inStock: product.inStock - 1,
+      });
+      if (response.status === 200) {
+        dispatch(updateInventory({
+          _id: product._id,
+          inStock: response.data.inStock 
+        }));
+      }
+    } catch (error) {
+
+      console.error('Failed to update inventory:', error);
+  
+    }
+  }
+);
+
+export const removeFromCartAndUpdateInventory = createAsyncThunk(
+  'cart/removeFromCartAndUpdateInventory',
+  async (product, { dispatch, getState }) => {
+    const currentQuantityInCart = getState().cart.items[product._id]?.quantity || 0;
+
+    if (currentQuantityInCart > 0) {
+      dispatch(removeFromCart(product._id));
+
+      try {
+        const response = await axios.put(`https://api-js401.herokuapp.com/api/v1/products/${product._id}`, {
+          inStock: product.inStock ,
+        });
+        if (response.status === 200) {
+          dispatch(updateInventory({
+            _id: product._id,
+            inStock: response.data.inStock 
+          }));
+          console.log(product.inStock);
+          console.log(currentQuantityInCart);
+        }
+      } catch (error) {
+        console.error('Failed to update inventory when removing from cart:', error);
       }
     }
-  );
+  }
+);
 
-const initialState = {
-  items: {}, 
-};
+
+
 
 const cartSlice = createSlice({
   name: 'cart',
-  initialState,
+  initialState: {
+    items: {},
+  },
   reducers: {
+    // Reducer to add an item to the cart
     addToCart(state, action) {
-      const { id, name, price } = action.payload;
-      if (state.items[id]) {
-        state.items[id].quantity += 1;
+      const { _id, name, price } = action.payload;
+      if (state.items[_id]) {
+        state.items[_id].quantity += 1;
       } else {
-        state.items[id] = { ...action.payload, quantity: 1 };
+        state.items[_id] = { ...action.payload, quantity: 1 };
       }
     },
+    // Reducer to remove an item from the cart
     removeFromCart(state, action) {
       delete state.items[action.payload];
     },
-    clearCart(state) {
-      state.items = {};
-    },
 
   },
+
   extraReducers: (builder) => {
-    builder.addCase(addToCartAndUpdateInventory.fulfilled, (state, action) => {
-    });
-  },
+    builder
+      .addCase(addToCartAndUpdateInventory.fulfilled, (state, action) => {
+      })
+      .addCase(addToCartAndUpdateInventory.rejected, (state, action) => {
+      })
+      .addCase(removeFromCartAndUpdateInventory.fulfilled, (state, action) => {
+      })
+      .addCase(removeFromCartAndUpdateInventory.rejected, (state, action) => {
+      });
+  }
 });
 
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
-
+export const { addToCart, removeFromCart } = cartSlice.actions;
 export default cartSlice.reducer;
